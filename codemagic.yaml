@@ -1,0 +1,25 @@
+workflows:
+  unitec-entregas-android:
+    name: Unitec Entregas - Android APK
+    instance_type: mac_mini_m2
+    max_build_duration: 60
+    environment:
+      flutter: stable
+      java: 17
+    triggering:
+      events:
+        - push
+    scripts:
+      - name: Instalar dependencias
+        script: flutter pub get
+      - name: Analisar codigo
+        script: flutter analyze
+      - name: Rodar testes
+        script: flutter test
+      - name: Build APK release
+        script: |
+          set -e
+          flutter build apk --release
+    artifacts:
+      - build/app/outputs/apk/release/Unitec-Entregas-*.apk
+      - build/app/outputs/flutter-apk/*.apk
